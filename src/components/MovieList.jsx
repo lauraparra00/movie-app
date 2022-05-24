@@ -1,67 +1,68 @@
 import { Component } from "react"; //creat component
 import "../App.css" // importat
-import { CreateForm } from "./CreateForm";
+import { movieServices } from "../services/movieServices";
+import { createUuid } from "../utils/createUuid";
+import { CreateFormBinde } from "./CreateFormBinde";
 import { MovieCard } from "./MovieCard";
+
+
 export class MovieList extends Component { //exporta el component
     constructor () {
         super(); 
         this.state= {
-            movies: [
-                {
-                id: 1,
-                title:"Blade Runner",
-                year: "1982",
-                imgUrl:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQDVbgdxeae3efp2h5CTrTWaFRuNZs7Kli81A&usqp=CAU"
-
-                },
-                
-                {
-                    id: 2,
-                    title:"Spider-man 3",
-                    year:2012,
-                    imgUrl:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQiP99HFaqFbmmURmPsvz2VF-hJz-KQCJP0A&usqp=CAU"
-                },
-                {
-                    id: 3,
-                    title:"Coco",
-                    year:2017,
-                    imgUrl:"http://www.elespectadorimaginario.com/wp-content/webpc-passthru.php?src=http://www.elespectadorimaginario.com/wp-content/uploads/poster-pelicula-coco.jpg&nocache=1"
-                },
-                {
-                    id: 4,
-                    title:"Fight Club",
-                    year:1999,
-                    imgUrl:"https://w0.peakpx.com/wallpaper/808/708/HD-wallpaper-fight-club-art-brad-pitt-graffiti-movie-wall.jpg"
-                },
-                {
-                    id: 5,
-                    title:"Constantine",
-                    year:2005,
-                    imgUrl:"https://sextabutaca.com/wp-content/uploads/2020/01/Curiosidades-de-Constantine.jpg"
-                },
-            ],
+            editedMovie: {title:"",id:"",imgUrl:"",year:""},
+            movies: [],
         }
     }
+
+    //preparat x treure array movies,funcionament movies.json
+   componentDidMount () {
+      movieServices.getAllMovies().then((res)=> {
+        this.setState ({movies:res});
+       
+       });
+   }
+
+  //addNewMovie és una funció per afegir una pelicula
     addNewMovie = (data) => {
+       data.id= createUuid (); //per crear un identificador aleatori
         console.log(data);
+        this.setState({movies: [...this.state.movies,data] }); //this.setState estableixes un nou estat de la llista pelicules, sense modificar llista afegim Data que es un nou parametre x agegir nova pelicula
     };
+
     deleteMovie = (id) => {
         let deleteConfirmed = window.confirm("Really delete")
         if (!deleteConfirmed) return
-        let filterMovies = this.state.movies.filter((movie) => movie.id != id);
+        let filterMovies = this.state.movies.filter((movie) => movie.id !== id);
         this.setState({movies: filterMovies});
     }
-    
+    // creem editedMovie, que busqui l'identif pelic que volem editar, li donem el id
+    editMovie = (id) => {
+        let editedMovie = this.state.movies.find (movie =>movie.id==id); 
+        this.setState ({editedMovie});
+    }
+    // per actualitzar les pelis
+    updateMovie = (newMovie) => {
+        let newMovieState = this.state.movies;
+        let movieToEditIndex = newMovieState.findIndex (movie =>movie.id==newMovie.id);
+        newMovieState[movieToEditIndex]=newMovie
+        this.setState({movies:newMovieState})
+    }
+
+
+
     render () {    //renderitza el component 
         return (
 
            <section>
-              <CreateForm addNewMovie={this.addNewMovie}/> 
+              <CreateFormBinde addNewMovie= {this.addNewMovie} editMovie={this.editMovie} updateMovie={this.updateMovie} editedMovie={this.state.editedMovie}/>
+                <section className="movielist">
 
                     {this.state.movies.map((movie, key) => (
                        <MovieCard key={key} movie={movie} deleteMovie= {this.deleteMovie}/> 
                     ))}
-                </section>   
+                </section>
+            </section>   
     
         
         
