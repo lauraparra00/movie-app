@@ -3,7 +3,14 @@ import { Component } from "react";
 export class MovieCard extends Component {
     constructor (props) {
         super(props);
+        this.state = {}
     }
+
+    edit = (movie)=> {
+        this.props.toggleform();
+        this.props.nextMovietoPreview(movie);
+    }
+
     render () {
         let movie = this.props.movie;
         return (
