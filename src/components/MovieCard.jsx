@@ -7,8 +7,8 @@ export class MovieCard extends Component {
     }
 
     edit = (movie)=> {
-        this.props.toggleform();
-        this.props.nextMovietoPreview(movie);
+        this.props.toggleForm();
+        this.props.nextMovieToPreview(movie);
     }
 
     render () {
@@ -24,7 +24,9 @@ export class MovieCard extends Component {
                                 <h5>{movie.title}</h5>
                                 <h6>{movie.year}</h6>
                                 <button>⭐</button>
-                                <button onClick={() => this.props.deleteMovie(movie.id)} className="btn btn-danger">borrar</button>
+                                <button onClick={() => this.props.deleteMovie(movie.id)} className="btn btn-danger">delete</button>
+                                <button onClick={() => this.edit(movie)} className="btn btn-danger">edit</button>
+                                
                             </div>
                         </div>
             </div>
