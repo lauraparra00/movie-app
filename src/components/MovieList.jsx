@@ -3,7 +3,8 @@ import "../App.css"; // importat
 import { movieServices } from "../services/movieServices";
 import { createUuid } from "../utils/createUuid";
 import { CreateFormBinde } from "./CreateFormBinde";
-import { MovieCard } from "./MovieCard";
+import { MovieCardF } from "./MovieCardF";
+
 
 export class MovieList extends Component {
   //exporta el component
@@ -113,13 +114,16 @@ export class MovieList extends Component {
 
         <section className="movielist">
           {this.state.movies.map((movie, key) => (
-            <MovieCard
-              key={key}
-              movie={movie}
-              deleteMovie={this.deleteMovie}
-              toggleForm={this.toggleForm}
-              nextMovieToPreview={this.nextMovieToPreview}
-            />
+            <MovieCardF
+
+            key={key}
+            movie={movie}
+            deleteMovie={this.deleteMovie}
+            toggleForm={this.toggleForm}
+            nextMovieToPreview={this.nextMovieToPreview}
+          />
+          
+              
           ))}
         </section>
       </section>

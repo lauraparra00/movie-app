@@ -8,12 +8,18 @@ export const movieServices = {
     });
     return movies;
   },
-  deleteMovie(id) {
-    const deleteMovie = axios.delete(url + "/movies/" + id).then((res) => {
-      return res.data;
-    });
-    return deleteMovie;
+// deleteMovie(id) {
+//    const deleteMovie = axios.delete(url + "/movies/" + id).then((res) => {
+//      return res.data;
+//    });
+//   return deleteMovie;
+ // },
+
+deleteMovie(id) {
+  return axios.delete (url + "/movies/" +id).then((res) =>res);
+   
   },
+
 
   postMovie(data) {
     const postMovie = axios.post(url + "/movies",data).then((res) => {
@@ -22,3 +28,4 @@ export const movieServices = {
     return postMovie;
   },
 };
+
